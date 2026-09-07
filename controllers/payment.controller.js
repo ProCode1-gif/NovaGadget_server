@@ -61,6 +61,23 @@ exports.getPaymentMethod = async (req, res) => {
   try {
     const userId = req.user.id;
 
+    const payment = await PaymentMethod.find({ userId });
+    if (!payment) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No address yet" });
+    }
+
+    return res.status(201).json({ payment, success: true });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+exports.getPayment = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
     const payment = await Payment.find({ userId });
     if (!payment) {
       return res
@@ -88,7 +105,7 @@ exports.updatePaymentMethod = async (req, res) => {
       cvv,
     } = req.body;
 
-    const payment = await PaymentMethod.find({ userId });
+    const payment = await PaymentMethod.findOne({ userId });
     if (!payment) {
       return res
         .status(400)
