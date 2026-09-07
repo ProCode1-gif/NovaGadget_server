@@ -44,7 +44,7 @@ exports.userSignin = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: "Signin fail" });
+      return res.status(404).json({ success: false, message: "Signin failed" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -106,7 +106,7 @@ exports.adminSignin = async (req, res) => {
 
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      return res.status(404).json({ success: false, message: "Signin fail" });
+      return res.status(404).json({ success: false, message: "Signin failed" });
     }
 
     const isMatch = await bcrypt.compare(password, admin.password);
