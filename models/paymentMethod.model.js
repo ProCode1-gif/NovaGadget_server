@@ -16,7 +16,7 @@ const paymentMethodSchema = new mongoose.Schema(
 
     cardHolderName: String,
 
-    cardNumber: String, // Better: store only last 4 digits
+    cardNumber: String,
     expiryMonth: String,
     expiryYear: String,
 

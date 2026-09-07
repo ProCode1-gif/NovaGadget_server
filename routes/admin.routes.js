@@ -17,7 +17,7 @@ adminRouter.post("/signin", verifyauth, auth.adminSignin);
 adminRouter.get("/:adminname", verification, profile.adminProfile);
 adminRouter.get("/customers", admin, verification, profile.customers);
 adminRouter.get("/customersAddress", admin, verification, address.getAllAddress);
-adminRouter.get("/customersPayment", admin, verification, payment.getAllPayment);
+adminRouter.get("/customersPayment", admin, verification, payment.getAllPayment);   
 adminRouter.get("/customersReview", admin, verification, review.getAllReview);
 adminRouter.get("/customersOrder", admin, verification, order.customerOrder);
 adminRouter.get("/categorySales", admin, verification, order.salesByCategory);

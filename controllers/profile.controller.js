@@ -16,6 +16,25 @@ exports.userProfile = async (req, res) => {
   }
 };
 
+exports.updateUser = async (req, res) => {
+  try {
+  const { userId } = req.param;
+  const { fullName, password, email, phoneNumber } = req.body;
+
+    const user = await User.findOne({ userId });
+    if (!user) {
+      return res.status(404).json({ success: false, messaage: 'User not found' })
+    }
+
+    const update = { fullName, password, email, phoneNumber }
+
+    const updateUser = await User.findOneAndUpdate({ update })
+    return res.status(201).json({ updateUser, success: true });
+  } catch (error) {
+    return res.status(500).json({ messaage: error.messaage });
+  }
+};
+
 exports.customers = async (req, res) => {
   try {
     const customers = await User.find();

@@ -40,6 +40,24 @@ exports.getAddress = async (req, res) => {
   }
 }
 
+exports.updateAddress = async (req, res) => {
+  try {
+    const userId = req.user.id
+    const {phoneNumber, country, state, city, street, postalCode, landmark, addressType} = req.body
+
+    const address = await Address.find({userId})
+    if (!address) {
+      return res.status(400).json({ success: false, message: 'No address yet' })
+    }
+
+    const update =  {phoneNumber, country, state, city, street, postalCode, landmark, addressType}
+    const addressUpdate = await Address.findOneAndUpdate({ update })
+    return res.status(201).json({ addressUpdate, success: true })
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Server error' })
+  }
+}
+
 exports.getAllAddress = async (req, res) => {
   try {
     const address = await Address.find()
