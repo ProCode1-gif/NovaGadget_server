@@ -5,7 +5,6 @@ const Admin = require("../models/admin.model");
 const sendEmail = require("../utils/mailer");
 require("dotenv").config();
 
-// User Auth
 exports.userSignup = async (req, res) => {
   try {
     const { fullName, password, email, phoneNumber } = req.body;
@@ -67,7 +66,6 @@ exports.userSignin = async (req, res) => {
   }
 };
 
-// Admin Auth
 exports.adminSignup = async (req, res) => {
   try {
     const { fullName, password, email, phoneNumber } = req.body;
