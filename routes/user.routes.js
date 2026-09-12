@@ -23,7 +23,6 @@ userRouter.get("/search", product.searchProduct);
 userRouter.get("/address", verification, address.getAddress);
 userRouter.put("/address", verification, address.updateAddress);
 userRouter.post("/addAddrress", verification, address.addAddress);
-userRouter.post("/addPayment", verification, payment.addPayment);
 userRouter.post("/paymentHistory", verification, payment.getPayment);
 userRouter.post("/addPaymentMethod", verification, payment.addPaymentMethod);
 userRouter.get("/payment", verification, payment.getPaymentMethod);
