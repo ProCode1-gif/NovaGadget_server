@@ -1,7 +1,7 @@
 const Review = require('../models/review.model')
 const { broadcast } = require('../ws')
 
-exports.addRevieew = async (req, res) => {
+exports.addReview = async (req, res) => {
   try {
     const { rating, comment } = req.body
   

@@ -22,12 +22,12 @@ userRouter.get("/shop", product.getAllProducts);
 userRouter.get("/search", product.searchProduct);
 userRouter.get("/address", verification, address.getAddress);
 userRouter.put("/address", verification, address.updateAddress);
-userRouter.post("/addAddrress", verification, address.addAddress);
+userRouter.post("/addAddress", verification, address.addAddress);
 userRouter.post("/paymentHistory", verification, payment.getPayment);
 userRouter.post("/addPaymentMethod", verification, payment.addPaymentMethod);
 userRouter.get("/payment", verification, payment.getPaymentMethod);
 userRouter.put("/payment", verification, payment.updatePaymentMethod);
-userRouter.post("/addReview", verification, review.addRevieew);
+userRouter.post("/addReview", verification, review.addReview);
 userRouter.get("/review", verification, review.getReview);
 
 module.exports = userRouter;

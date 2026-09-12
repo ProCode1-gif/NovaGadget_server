@@ -11,16 +11,21 @@ function initWebSocket(server) {
     return wss;
   }
 
-  wss = new WebSocket.Server({server});
+  wss = new WebSocket.Server({ server });
 
   console.log("WebSocket server is ready");
 
-  wss.on("connection", (socket) => {
+  wss.on("connection", (socket, request) => {
+    const ip = request.socket.remoteAddress;
     console.log("Client connected to WebSocket server");
 
-    // socket.on("message", (message) => {
-    //   console.log("Received message:", message.toString());
-    // });
+    socket.on("message", (message) => {
+      console.log("Received message:", message.toString());
+    });
+
+    socket.on("error", (error) => {
+      console.error(`WebSocket error from client ${ip}: ${error.message}`);
+    });
 
     socket.on("close", () => {
       console.log("Client disconnected from WebSocket server");
@@ -35,14 +40,13 @@ function initWebSocket(server) {
     console.error("WebSocket server error:", error);
   });
 
-  // wss.on("close", () => {
-  //   console.log("WebSocket server closed");
-  //   wss = null;
-  // });
+  wss.on("close", () => {
+    console.log("WebSocket server closed");
+    wss = null;
+  });
 
   return wss;
 }
-
 
 function broadcast(data) {
   if (!wss) {
@@ -56,7 +60,6 @@ function broadcast(data) {
     }
   });
 }
-
 
 module.exports = {
   initWebSocket,
