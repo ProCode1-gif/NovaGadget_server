@@ -3,7 +3,7 @@ const Admin = require("../models/admin.model");
 
 exports.userProfile = async (req, res) => {
   try {
-  const { userId } = req.param;
+    const userId = req.user._id.param
 
     const user = await User.findOne({ userId });
     if (!user) {
@@ -18,7 +18,7 @@ exports.userProfile = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-  const { userId } = req.param;
+    const userId = req.user._id.param
   const { fullName, password, email, phoneNumber } = req.body;
 
     const user = await User.findOne({ userId });
@@ -50,8 +50,8 @@ exports.customers = async (req, res) => {
 
 exports.adminProfile = async (req, res) => {
   try {
-  const { adminId } = req.param;
-
+    const adminId = req.admin._id.param;
+    
     const admin = await Admin.findOne({ adminId });
     if (!admin) {
       res.status(404).json({ success: false, messaage: 'Admin not found' });

@@ -6,7 +6,7 @@ exports.addAddress = async (req, res) => {
     const { fullName, phoneNumber, country, state, city, street, postalCode, landmark, addressType } = req.body
   
     const address = await Address.create({
-      user: req.userId,
+      user: req.user._id,
       fullName,
       phoneNumber,
       country,
@@ -27,7 +27,7 @@ exports.addAddress = async (req, res) => {
 
 exports.getAddress = async (req, res) => {
   try {
-    const userId = req.user.id
+    const userId = req.user._id
 
     const address = await Address.find({userId})
     if (!address) {
@@ -42,7 +42,7 @@ exports.getAddress = async (req, res) => {
 
 exports.updateAddress = async (req, res) => {
   try {
-    const userId = req.user.id
+    const userId = req.user._id
     const {phoneNumber, country, state, city, street, postalCode, landmark, addressType} = req.body
 
     const address = await Address.find({userId})

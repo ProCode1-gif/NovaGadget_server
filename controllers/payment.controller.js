@@ -17,7 +17,7 @@ exports.addPaymentMethod = async (req, res) => {
     } = req.body;
 
     const paymentMethod = await PaymentMethod.create({
-      user: req.userId,
+      user: req.user_id,
       type,
       cardHolderName,
       cardNumber: await bcrypt.hash(cardNumber, 10),
@@ -28,30 +28,8 @@ exports.addPaymentMethod = async (req, res) => {
       cvv: await bcrypt.hash(cvv, 10),
     });
 
-    broadcast({ type: "New Payment Method", data: paymentMethod });
+    broadcast({ type: "New_Payment_Method", data: paymentMethod });
     return res.status(200).json({ paymentMethod, success: true });
-  } catch (error) {
-    return res.status(500).json({ success: false, message: "Server error" });
-  }
-};
-
-exports.addPayment = async (req, res) => {
-  try {
-    const { order, method, amount, currency, paymentStatus, paidAt } = req.body;
-
-    const payment = await Payment.create({
-      user: req.userId,
-      order,
-      method,
-      amount,
-      currency,
-      paymentStatus,
-      transactionId,
-      paidAt,
-    });
-
-    broadcast({ type: "New Payment", data: payment });
-    return res.status(200).json({ payment, success: true });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error" });
   }
@@ -59,7 +37,7 @@ exports.addPayment = async (req, res) => {
 
 exports.getPaymentMethod = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
 
     const payment = await PaymentMethod.find({ userId });
     if (!payment) {
@@ -76,7 +54,7 @@ exports.getPaymentMethod = async (req, res) => {
 
 exports.getPayment = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
 
     const payment = await Payment.find({ userId });
     if (!payment) {
@@ -93,7 +71,7 @@ exports.getPayment = async (req, res) => {
 
 exports.updatePaymentMethod = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
     const {
       type,
       cardHolderName,

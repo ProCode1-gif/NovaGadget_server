@@ -7,7 +7,7 @@ const myOrderSchema = mongoose.Schema(
       {
         productIds: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
         quantity: { type: Number, default: 1 },
-        price: { type: Number, default: 1 },
+        totalAmount: { type: Number, default: 1 },
         status: {
           type: String,
           enum: ["Pending", "Delivered", "Cancelled"],

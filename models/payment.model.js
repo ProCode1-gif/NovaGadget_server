@@ -10,13 +10,13 @@ const paymentSchema = new mongoose.Schema(
 
     order: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Order",
+      ref: "MyOrder",
       required: true
     },
-    method: { type: mongoose.Schema.Types.ObjectId, ref: "Payment Method" },
-    amount: { type: Number, require: true }, // Better: store only last 4 digits
-    currency: { type: String, require: true },
-    paymentStatus: { type: String, enum: ["Pending", "Successful  ", "Cancelled"], default: "Pending", },
+    totalAmount: { type: Number, require: true }, 
+    currency: { type: String, require: true, default: "NGN" },
+    paymentMethod: { type: mongoose.Schema.Types.ObjectId, ref: "PaymentMethod" },
+    status: { type: String, enum: ["Pending", "Paid", "Cancelled"], default: "Pending", },
     transactionId: { type: String, require: true },
     paidAt: { type: Date, default: Date.now, require: true },
     isDefault: {

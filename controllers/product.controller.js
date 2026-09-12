@@ -12,7 +12,7 @@ exports.addProducts = async (req, res) => {
     const imageUrl = req.file.path;
 
     const product = await new Product.create({
-      adminId: req.admin.Id,
+      adminId: req.admin._Id,
       imageUrl,
       brand,
       name,

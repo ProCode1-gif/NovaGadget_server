@@ -6,13 +6,13 @@ exports.addRevieew = async (req, res) => {
     const { rating, comment } = req.body
   
     const review = await Review.create({
-      user: req.userId,
-      product: req.productId,
+      user: req.user._id,
+      product: req.product._id,
       rating,
       comment
     })
   
-    broadcast({ type: 'New Review', data: review })
+    broadcast({ type: 'New_Review', data: review })
     return res.status(200).json({ review, success: true })
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Server error' })
@@ -21,7 +21,7 @@ exports.addRevieew = async (req, res) => {
 
 exports.getReview = async (req, res) => {
   try {
-    const userId = req.user.id
+    const userId = req.user._id
 
     const review = await Review.find({userId})
     if (!review) {

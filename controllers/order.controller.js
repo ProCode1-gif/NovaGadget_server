@@ -2,28 +2,11 @@ const User = require("../models/user.model");
 const MyOrder = require("../models/myOrder.model");
 const Product = require("../models/product.model");
 const { broadcast } = require("../ws");
-
-exports.addToOrder = async (req, res) => {
-  try {
-    const { quantity } = req.body;
-
-    const order = await MyOrder.create({
-      user: req.userId,
-      productIds: [Product._id],
-      quantity,
-      totalPrice: Product.price * quantity,
-    });
-
-    broadcast({ type: "ORDER_ADDED", data: order });
-    return res.status(201).json({ order, success: true });
-  } catch (error) {
-    return res.status(500).json({ success: false, message: "Server error" });
-  }
-};
+const Payment = require("../models/payment.model");
 
 exports.placeOrder = async (req, res) => {
   try {
-    const { products, paymentMethod, selectedAccount } = req.body;
+    const { products, paymentMethod, selectedAccountId } = req.body;
 
     const user = await User.findById();
 
@@ -61,20 +44,29 @@ exports.placeOrder = async (req, res) => {
     }
 
     const order = await MyOrder.create({
-      user: req.userId,
-      products,
+      user: user._id,
+      products: products._id,
       quantity,
       totalAmount,
+      status,
+    });
+
+    const payment = await Payment.create({
+      user: user._id,
+      order: order._id,
+      totalAmount,
+      currency: "NGN",
       paymentMethod,
-      selectedAccountId,
-      paymentStatus: "paid",
+      status,
+      transactionId: `TNXX${Math.floor(Math.random() * 1000000)}`
     });
 
     const notification = await Notification.create({
-      recipient: product.admin,
-      type: "new_order",
-      message: `New order for ${product.name}`,
+      recipient: products.adminId,
+      type: "NEW_ORDER",
+      message: `New order for ${products.name}`,
       order: order._id,
+      payment: payment._id,
     });
 
     adminSocket.send(
@@ -86,18 +78,18 @@ exports.placeOrder = async (req, res) => {
 
     broadcast({ type: "NEW_ORDER", data: order });
     res.status(201).json({
-      success: " true",
+      success: true,
       message: "Order placed successfully",
       order,
     });
   } catch (error) {
-    res.status(500).json({ success: true, message: "Server erroor", error });
+    res.status(500).json({ success: false, message: "Server error", error });
   }
 };
 
 exports.myOrder = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
 
     const product = await Product.find({ userId });
 
