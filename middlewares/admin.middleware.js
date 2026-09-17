@@ -1,6 +1,6 @@
 const admin = (req, res, next) => {
   if (req.user.role !== 'admin') {
-    return res.status(404).json({ message: "Admin only"})
+    return res.status(405).json({ message: "Admin only"})
   }
   next()
 }

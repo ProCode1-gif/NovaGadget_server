@@ -8,10 +8,12 @@ exports.placeOrder = async (req, res) => {
   try {
     const { products, paymentMethod, selectedAccountId } = req.body;
 
-    const user = await User.findById();
+    const userId = req.user._id
+
+    const user = await User.findById({ userId });
 
     if (!user) {
-      return res.status(404).json({
+      return res.status(204).json({
         message: "User not found",
       });
     }
@@ -24,7 +26,7 @@ exports.placeOrder = async (req, res) => {
 
     if (paymentMethod === 1) {
       if (user.balance < totalAmount) {
-        return res.status(400).json({
+        return res.status(403).json({
           message: "Insufficient balance",
         });
       }
@@ -95,10 +97,10 @@ exports.myOrder = async (req, res) => {
 
     if (!product) {
       return res
-        .status(404)
+        .status(204)
         .json({ success: false, message: "Product not found" });
     }
-    return res.status(201).json({ product, success: true });
+    return res.status(200).json({ product, success: true });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error" });
   }
@@ -110,10 +112,10 @@ exports.customerOrder = async (req, res) => {
 
     if (!orders) {
       return res
-        .status(404)
+        .status(204)
         .json({ success: false, message: "Orders not found" });
     }
-    return res.status(201).json({ orders, success: true });
+    return res.status(200).json({ orders, success: true });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error" });
   }

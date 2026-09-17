@@ -13,7 +13,7 @@ exports.addReview = async (req, res) => {
     })
   
     broadcast({ type: 'New_Review', data: review })
-    return res.status(200).json({ review, success: true })
+    return res.status(201).json({ review, success: true })
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Server error' })
   }
@@ -25,10 +25,10 @@ exports.getReview = async (req, res) => {
 
     const review = await Review.find({userId})
     if (!review) {
-      return res.status(400).json({ success: false, message: 'No address yet' })
+      return res.status(204).json({ success: false, message: 'No address yet' })
     }
 
-    return res.status(201).json({review, success: true })
+    return res.status(200).json({review, success: true })
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Server error' })
   }
@@ -38,10 +38,10 @@ exports.getAllReview = async (req, res) => {
   try {
     const review = await Review.find()
     if (!review) {
-      return res.status(400).json({ success: false, message: 'No address yet' })
+      return res.status(204).json({ success: false, message: 'No address yet' })
     }
 
-    return res.status(201).json({review, success: true })
+    return res.status(200).json({review, success: true })
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Server error' })
   }

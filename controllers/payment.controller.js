@@ -29,7 +29,7 @@ exports.addPaymentMethod = async (req, res) => {
     });
 
     broadcast({ type: "New_Payment_Method", data: paymentMethod });
-    return res.status(200).json({ paymentMethod, success: true });
+    return res.status(201).json({ paymentMethod, success: true });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error" });
   }
@@ -42,8 +42,8 @@ exports.getPaymentMethod = async (req, res) => {
     const payment = await PaymentMethod.find({ userId });
     if (!payment) {
       return res
-        .status(400)
-        .json({ success: false, message: "No address yet" });
+        .status(204)
+        .json({ success: false, message: "No method yet" });
     }
 
     return res.status(201).json({ payment, success: true });
@@ -59,8 +59,8 @@ exports.getPayment = async (req, res) => {
     const payment = await Payment.find({ userId });
     if (!payment) {
       return res
-        .status(400)
-        .json({ success: false, message: "No address yet" });
+        .status(204)
+        .json({ success: false, message: "No payment yet" });
     }
 
     return res.status(201).json({ payment, success: true });
@@ -86,8 +86,8 @@ exports.updatePaymentMethod = async (req, res) => {
     const payment = await PaymentMethod.findOne({ userId });
     if (!payment) {
       return res
-        .status(400)
-        .json({ success: false, message: "No address yet" });
+        .status(204)
+        .json({ success: false, message: "No method yet" });
     }
 
     const update = {
@@ -100,8 +100,8 @@ exports.updatePaymentMethod = async (req, res) => {
       accountNumber,
       cvv,
     };
-    const updatePayment = await PaymentMethod.findOneAndUpdate({ update });
-    return res.status(201).json({ updatePayment, success: true });
+    const updatePayment = await PaymentMethod.findOneAndUpdate({ update, success: true });
+    return res.status(202).json({ updatePayment, success: true });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error" });
   }
@@ -112,11 +112,11 @@ exports.getAllPaymentMetod = async (req, res) => {
     const payment = await PaymentMethod.find();
     if (!payment) {
       return res
-        .status(400)
-        .json({ success: false, message: "No address yet" });
+        .status(204)
+        .json({ success: false, message: "No method yet" });
     }
 
-    return res.status(201).json({ payment, success: true });
+    return res.status(200).json({ payment, success: true });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error" });
   }
@@ -127,11 +127,11 @@ exports.getAllPayment = async (req, res) => {
     const payment = await Payment.find();
     if (!payment) {
       return res
-        .status(400)
+        .status(204)
         .json({ success: false, message: "No address yet" });
     }
 
-    return res.status(201).json({ payment, success: true });
+    return res.status(200).json({ payment, success: true });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error" });
   }

@@ -12,7 +12,7 @@ exports.userSignup = async (req, res) => {
     const userExist = await User.findOne({ email });
     if (userExist) {
       return res
-        .status(404)
+        .status(206)
         .json({ success: false, message: "Already have an account" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -30,7 +30,7 @@ exports.userSignup = async (req, res) => {
     );
     await sendEmail(email, "userSignup", { fullName: user.fullName });
     return res
-      .status(200)
+      .status(201)
       .json({ token, success: true, message: "Signup successfully" });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error" });
@@ -43,7 +43,7 @@ exports.userSignin = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: "Signin failed" });
+      return res.status(401).json({ success: false, message: "Signin failed" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -59,7 +59,7 @@ exports.userSignin = async (req, res) => {
     );
     await sendEmail(email, "userSignin", { fullName: user.fullName });
     return res
-      .status(200)
+      .status(202)
       .json({ token, success: true, message: "Signin successfully" });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error" });
@@ -73,8 +73,8 @@ exports.adminSignup = async (req, res) => {
     const adminExist = await Admin.findOne({ email });
     if (adminExist) {
       return res
-        .status(404)
-        .json({ success: false, message: "Already have an account" });
+        .status(206)
+        .json({ succ,ess: false, message: "Already have an account" });
     }
     const hashPassword = await bcrypt.hash(password, 10);
     const admin = await Admin.create({
@@ -91,7 +91,7 @@ exports.adminSignup = async (req, res) => {
     );
     await sendEmail(email, "adminSignup", { fullName: admin.fullName });
     return res
-      .status(200)
+      .status(201)
       .json({ token, success: true, message: "Signup successful" });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error" });
