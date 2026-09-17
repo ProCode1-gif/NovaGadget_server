@@ -35,7 +35,8 @@ exports.addProducts = async (req, res) => {
 
 exports.getAdminProducts = async (req, res) => {
   try {
-    const products = await Product.find({ admin: req.admin.Id });
+    const adminId = req.admin._id
+    const products = await Product.find({ adminId });
     return res.status(200).json({ products, success: true });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });

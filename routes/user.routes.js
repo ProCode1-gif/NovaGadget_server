@@ -13,7 +13,7 @@ const review = require('../controllers/review.controller')
 userRouter.post("/signup", verifyAuth, auth.userSignup);
 userRouter.post("/signin", auth.userSignin);
 userRouter.get("/profile", verification, profile.userProfile);
-userRouter.put("/profile", verification, profile.updateUser);
+userRouter.patch("/profile", verification, profile.updateUser);
 userRouter.get("/myOrder", verification, order.myOrder);
 userRouter.post("/placeOrder", verification, order.placeOrder);
 userRouter.post("/addToCart", verification, cart.addToCart);
@@ -21,12 +21,12 @@ userRouter.get("/myCart", verification, cart.myCart);
 userRouter.get("/shop", product.getAllProducts);
 userRouter.get("/search", product.searchProduct);
 userRouter.get("/address", verification, address.getAddress);
-userRouter.put("/address", verification, address.updateAddress);
+userRouter.patch("/address", verification, address.updateAddress);
 userRouter.post("/addAddress", verification, address.addAddress);
-userRouter.post("/paymentHistory", verification, payment.getPayment);
+userRouter.get("/paymentHistory", verification, payment.getPayment);
 userRouter.post("/addPaymentMethod", verification, payment.addPaymentMethod);
-userRouter.get("/payment", verification, payment.getPaymentMethod);
-userRouter.put("/payment", verification, payment.updatePaymentMethod);
+userRouter.get("/paymentMethod", verification, payment.getPaymentMethod);
+userRouter.patch("/paymentMethod", verification, payment.updatePaymentMethod);
 userRouter.post("/addReview", verification, review.addReview);
 userRouter.get("/review", verification, review.getReview);
 
