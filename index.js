@@ -9,7 +9,6 @@ const connectDB = require("./configs/db.config");
 require("dotenv").config();
 app.use(express.json());
 const port = process.env.PORT;
-app.use(express.json());
 app.use(cors());
 
 const adminRoutes = require("./routes/admin.routes");
