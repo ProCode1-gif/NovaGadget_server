@@ -12,7 +12,7 @@ exports.userSignup = async (req, res) => {
     const userExist = await User.findOne({ email });
     if (userExist) {
       return res
-        .status(206)
+        .status(404)
         .json({ success: false, message: "Already have an account" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -73,7 +73,7 @@ exports.adminSignup = async (req, res) => {
     const adminExist = await Admin.findOne({ email });
     if (adminExist) {
       return res
-        .status(206)
+        .status(404)
         .json({ succ,ess: false, message: "Already have an account" });
     }
     const hashPassword = await bcrypt.hash(password, 10);
