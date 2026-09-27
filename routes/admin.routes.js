@@ -10,7 +10,6 @@ const order = require('../controllers/order.controller')
 const address = require('../controllers/address.controller')
 const payment = require('../controllers/payment.controller')
 const review = require('../controllers/review.controller')
-const products = require("../controllers/product.controller");
 
 adminRouter.post("/signup", admin, verifyauth, auth.adminSignup);
 adminRouter.post("/signin", verifyauth, auth.adminSignin);
