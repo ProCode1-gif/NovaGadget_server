@@ -10,7 +10,10 @@ const address = require('../controllers/address.controller')
 const payment = require('../controllers/payment.controller')
 const review = require('../controllers/review.controller')
 
-userRouter.post("/signup", verifyAuth, auth.userSignup);
+userRouter.post("/signup", (req, res, next) => {
+  console.log("🔥 SIGNUP ROUTE REACHED");
+  next();
+}, verifyAuth, auth.userSignup);
 userRouter.post("/signin", verifyAuth, auth.userSignin);
 userRouter.get("/profile", verification, profile.userProfile);
 userRouter.patch("/profile", verification, profile.updateUser);
