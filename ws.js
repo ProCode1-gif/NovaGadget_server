@@ -5,22 +5,15 @@ let wss = null;
 function initWebSocket(server) {
   console.log("Initializing WebSocket server...");
 
-  // Prevent creating multiple WebSocket servers
-  if (wss) {
-    console.log("WebSocket server already initialized");
-    return wss;
-  }
+  if (wss) return wss;
 
   wss = new WebSocket.Server({ server });
 
-  console.log("WebSocket server is ready");
-
   wss.on("connection", (socket, request) => {
     const ip = request.socket.remoteAddress;
-    console.log("Client connected to WebSocket server");
 
     socket.on("message", (message) => {
-      console.log("Received message:", message.toString());
+      console.log("Received message:", JSON.stringify(message));
     });
 
     socket.on("error", (error) => {
@@ -31,9 +24,6 @@ function initWebSocket(server) {
       console.log("Client disconnected from WebSocket server");
     });
 
-    socket.on("error", (error) => {
-      console.error("WebSocket client error:", error);
-    });
   });
 
   wss.on("error", (error) => {
@@ -49,10 +39,17 @@ function initWebSocket(server) {
 }
 
 function broadcast(data) {
-  if (!wss) {
-    console.error("WebSocket server is not initialized");
-    return;
-  }
+  if (!wss) return;
+
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(data));
+    }
+  });
+}
+
+function unicast(data) {
+  if (!wss) return;
 
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
