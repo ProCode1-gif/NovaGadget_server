@@ -15,11 +15,7 @@ exports.userSignup = async (req, res) => {
         .status(409)
         .json({ success: false, message: "Already have an account" });
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
-      fullName,
-      password: hashedPassword,
-      email
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       fullName,
@@ -79,7 +75,7 @@ exports.adminSignup = async (req, res) => {
     if (adminExist) {
       return res
         .status(409)
-        .json({ succ,ess: false, message: "Already have an account" });
+        .json({ success: false, message: "Already have an account" });
     }
     const hashPassword = await bcrypt.hash(password, 10);
     const admin = await Admin.create({
