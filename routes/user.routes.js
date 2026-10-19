@@ -4,13 +4,13 @@ const profile = require("../controllers/profile.controller");
 const verifyAuth = require("../middlewares/verifyAuth.middleware");
 const verification = require("../middlewares/verification.middleware");
 const product = require("../controllers/product.controller");
-const order = require('../controllers/order.controller')
 const cart = require('../controllers/cart.controller')
+const order = require('../controllers/order.controller')
 const address = require('../controllers/address.controller')
 const payment = require('../controllers/payment.controller')
 const review = require('../controllers/review.controller')
 
-userRouter.post("/signup", verifyAuth, auth.userSignup);
+userRouter.post("/signup", verifyAuth, autEh.userSignup);
 userRouter.post("/signin", verifyAuth, auth.userSignin);
 userRouter.get("/profile", verification, profile.userProfile);
 userRouter.patch("/profile", verification, profile.updateUser);
